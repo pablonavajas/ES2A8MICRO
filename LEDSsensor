@@ -1,0 +1,43 @@
+//declare constant integrer for sensor pin (A0)
+const int sensorPin=A0;
+int redPin=3;
+int whitePin=2;
+
+//declare floating-point variables used in the sketch
+float reading;
+float voltage;
+float tempC;
+
+
+void setup() {
+  //Open a serial conection to display values
+  Serial.begin(9600);
+  pinMode(redPin,OUTPUT);
+  pinMode(whitePin,OUTPUT);
+}
+
+void loop() {
+  //read the value on Analogln pin0 and store it as a variable
+  reading = analogRead(sensorPin);
+  //print a label on the serial port
+  Serial.print("Sensor Reading:");
+  //print the varuiable 'reading' with 0 decimals
+  Serial.print(reading,0);
+  
+  voltage=((reading/1023.0)*5.0);
+  Serial.print(",Voltage:");
+  Serial.print(voltage,4);
+  tempC=(voltage*100);
+  Serial.print(",degrees C:");
+  Serial.println(tempC,2);
+  delay(250);
+
+  if (tempC>25){
+    digitalWrite(redPin, HIGH);
+    digitalWrite(whitePin, LOW);
+  }
+  if (tempC<25){
+    digitalWrite(redPin, LOW);
+    digitalWrite(whitePin, HIGH);
+  }
+  }
